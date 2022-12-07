@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: lab3
+  labels:
+    app: app-pod
+    #Owner: Dhruv
+  name: app-pod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+        app: app-pod
+  template:
+    metadata:
+      labels:
+        app: app-pod
+    spec:
+      containers:
+      - image: 269793566624.dkr.ecr.us-east-1.amazonaws.com/apprepo:latest
+        name: app-pod
+        env:
+          - name: DBHOST
+            value: "192.168.64.194"
+          - name: DBPORT
+            value: "3306"
+          - name: DBUSER
+            value: "root"
+          - name: DATABASE
+            value: "employees"
+          - name: DBPWD
+            value: "123"
+          - name: APP_COLOR
+            value: "blue"
+        ports:
+          - containerPort: 8080
+            name: app-pod

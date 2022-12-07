@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: lab3
+  labels:
+    app: sql-pod
+    #owner: Dhruv
+  name: sql-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sql-pod
+  template:
+    metadata:
+      labels:
+        app: sql-pod
+    spec:
+      volumes:
+      - name: mysql-pvc
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+      containers:
+      - image: 269793566624.dkr.ecr.us-east-1.amazonaws.com/sqlrepo:latest
+        name: sql-pod
+        volumeMounts:
+        - name: mysql-pvc
+          mountPath: /var/lib/mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "123"
+        ports:
+          - name: sql-pod
+            containerPort: 3306
+            protocol: TCP
